@@ -603,7 +603,8 @@ func (r *Regexp) SetCallout(fn func(cb *CalloutBlock) int32) error {
 		calloutStrBytes := unsafe.Slice((*byte)(unsafe.Pointer(ccb.Fcallout_string)), ccb.Fcallout_string_length)
 		cb.CalloutString = string(calloutStrBytes)
 
-		ovecSlice := unsafe.Slice((*lib.Tsize_t)(unsafe.Pointer(ccb.Foffset_vector)), (ccb.Fcapture_top*2)-1)
+		ovecSlice := unsafe.Slice((*lib.Tsize_t)(unsafe.Pointer(ccb.Foffset_vector)), 2+(ccb.Fcapture_top-1)*2)
+
 		if len(ovecSlice) > 2 {
 			ovecSlice = ovecSlice[2:]
 			for i := 0; i < len(ovecSlice); i += 2 {
