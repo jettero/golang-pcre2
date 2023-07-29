@@ -3,7 +3,7 @@
 on:
   push:
     branches:
-      - my-deploy
+      - probably-not-needed-see-todo-below
   workflow_call:
     inputs: {}
   workflow_dispatch:
@@ -60,10 +60,12 @@ jobs:
           -trace-translation-units -export-externs X -export-defines D -export-fields F -export-structs S
           -export-typedefs T pcre.json .libs/libpcre2-8.a
 
-      # TODO: this doesn't work, but ... if it could be made to work, it'd be a boon...
-      # - uses: Mattraks/delete-workflow-runs@v2
-      #   with:
-      #     token: ${{ github.token }}
-      #     repository: ${{ github.repository }}
-      #     retain_days: 0
-      #     keep_minimum_runs: 1
+      # TODO: 
+      # - copy the new capi_*.go and pcre2_*.go into lib/
+
+      # TODO:
+      # - add a commit with the new libs
+
+      # NOTE: probably, none of this is necessary at all. mostly I've only
+      # really chagned the pcre.go and I don't think changes to it in any way
+      # need to be recompiled into lib/
