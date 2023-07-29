@@ -606,13 +606,8 @@ func (r *Regexp) SetCallout(fn func(cb *CalloutBlock) int32) error {
 		ovecSlice := unsafe.Slice((*lib.Tsize_t)(unsafe.Pointer(ccb.Foffset_vector)), 2+(ccb.Fcapture_top-1)*2)
 
 		if len(ovecSlice) > 2 {
-			ovecSlice = ovecSlice[2:]
-			for i := 0; i < len(ovecSlice); i += 2 {
-				if i+1 >= len(ovecSlice) {
-					cb.Substrings = append(cb.Substrings, cb.Subject[ovecSlice[i]:])
-				} else {
-					cb.Substrings = append(cb.Substrings, cb.Subject[ovecSlice[i]:ovecSlice[i+1]])
-				}
+			for i := 2; i+1 < len(ovecSlice); i += 2 {
+                cb.Substrings = append(cb.Substrings, cb.Subject[ovecSlice[i]:ovecSlice[i+1]])
 			}
 		}
 
