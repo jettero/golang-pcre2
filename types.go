@@ -1,6 +1,6 @@
 package pcre
 
-import "go.elara.ws/pcre/lib"
+import "github.com/jettero/golang-pcre2/lib"
 
 type CompileOption uint32
 

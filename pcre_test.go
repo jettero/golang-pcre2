@@ -6,7 +6,7 @@ import (
 	"testing"
 	"reflect"
 
-	"go.elara.ws/pcre"
+	"github.com/jettero/golang-pcre2"
 )
 
 func TestCompileError(t *testing.T) {

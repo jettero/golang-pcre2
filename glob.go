@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unsafe"
 
-	"go.elara.ws/pcre/lib"
+	"github.com/jettero/golang-pcre2/lib"
 	"modernc.org/libc"
 )
 
