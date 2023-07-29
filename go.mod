@@ -1,6 +1,6 @@
-module go.elara.ws/pcre
+module github.com/jettero/pcre
 
-go 1.18
+go 1.20
 
 require modernc.org/libc v1.16.8
 
