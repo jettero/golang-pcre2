@@ -596,6 +596,7 @@ const (
 	DPCRE2_PRERELEASE                                = 0                    // pcre2.h:46:1:
 	DPCRE2_SIZE_MAX                                  = 18446744073709551615 // pcre2.h:472:1:
 	DPCRE2_STARTLINE                                 = 0x00000200           // pcre2_internal.h:516:1:
+	DPCRE2_STATIC                                    = 1                    // config.h:278:1:
 	DPCRE2_SUBSTITUTE_EXTENDED                       = 0x00000200           // pcre2.h:179:1:
 	DPCRE2_SUBSTITUTE_GLOBAL                         = 0x00000100           // pcre2.h:178:1:
 	DPCRE2_SUBSTITUTE_LITERAL                        = 0x00008000           // pcre2.h:185:1:
@@ -2831,7 +2832,6 @@ type T__float128 = float64        /* <builtin>:47:21 */
 //    in the C sense, but which are internal to the library.
 
 // Define to any value if linking statically (TODO: make nice with Libtool)
-// #undef PCRE2_STATIC
 
 // Define to necessary symbol if this constant uses a non-standard name on
 //    your system.
@@ -23673,7 +23673,6 @@ HAD_ERROR:
 //    in the C sense, but which are internal to the library.
 
 // Define to any value if linking statically (TODO: make nice with Libtool)
-// #undef PCRE2_STATIC
 
 // Define to necessary symbol if this constant uses a non-standard name on
 //    your system.

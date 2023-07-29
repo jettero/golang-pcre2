@@ -1,0 +1,69 @@
+
+---
+on:
+  push:
+    branches:
+      - my-deploy
+  workflow_call:
+    inputs: {}
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  mklibs:
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    strategy:
+      matrix:
+        platform:
+          - os: ubuntu-latest
+            kernel: linux
+        arch:
+          - go_name: amd64
+            gcc_name: x64
+
+    runs-on: ${{ matrix.platform.os }}
+
+    steps:
+      - name: set up gcc
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: ${{ matrix.arch.gcc_name }}
+      - run: which gcc
+      - run: gcc --version
+
+      - name: check out ${{ github.repository }}
+        uses: actions/checkout@v3
+
+      - name: check out the actual pcre2 library
+        uses: actions/checkout@v3
+        with:
+          repository: PCRE2Project/pcre2
+          path: pcre2
+          ref: pcre2-10.42
+
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.20'
+
+      - name: install ccgo
+        run: go install modernc.org/ccgo/v3@latest
+      - run: ccgo -version
+
+      - name: clean and (re)configure pcre2
+        run: cd pcre2 && git reset --hard && git clean -dfx && ./autogen.sh && ./configure --disable-shared && ccgo -compiledb ../pcre.json make
+
+      - name: build pcre2_${{ matrix.platform.kernel }}_${{ matrix.arch.go_name }}.go
+        run: >
+          CC=$(which gcc) ccgo -o pcre2_${{ matrix.platform.kernel }}_${{ matrix.arch.go_name }}.go -pkgname lib
+          -trace-translation-units -export-externs X -export-defines D -export-fields F -export-structs S
+          -export-typedefs T pcre.json .libs/libpcre2-8.a
+
+      # TODO: this doesn't work, but ... if it could be made to work, it'd be a boon...
+      # - uses: Mattraks/delete-workflow-runs@v2
+      #   with:
+      #     token: ${{ github.token }}
+      #     repository: ${{ github.repository }}
+      #     retain_days: 0
+      #     keep_minimum_runs: 1
