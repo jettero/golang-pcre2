@@ -1,4 +1,4 @@
-module github.com/jettero/pcre
+module github.com/jettero/golang-pcre2
 
 go 1.20
 
